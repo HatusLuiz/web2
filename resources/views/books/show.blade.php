@@ -2,33 +2,20 @@
 
 @section('content')
 <div class="container">
-    <h1 class="my-4">Detalhes do Livro</h1>
 
-    <div class="card">
-        <div class="card-header">
-            <strong>Título:</strong> {{ $book->title }}
-        </div>
-        <div class="card-body">
-            <p><strong>Autor:</strong>
-                <a href="{{ route('authors.show', $book->author->id) }}">
-                    {{ $book->author->name }}
-                </a>
-            </p>
-            <p><strong>Editora:</strong>
-                <a href="{{ route('publishers.show', $book->publisher->id) }}">
-                    {{ $book->publisher->name }}
-                </a>
-            </p>
-            <p><strong>Categoria:</strong>
-                <a href="{{ route('categories.show', $book->category->id) }}">
-                    {{ $book->category->name }}
-                </a>
-            </p>
-        </div>
+    <!-- Exibir a imagem de capa do livro -->
+    <div class="mb-4 text-center">
+        @if($book->cover_image)
+            <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Capa do livro" style="max-width: 250px; border: 1px solid #ddd; padding: 8px;">
+        @else
+            <img src="https://i.pinimg.com/736x/cd/7a/ec/cd7aeca45c51ecc9ef1b435027803439.jpg" alt="Capa padrão" style="max-width: 250px; border: 1px solid #ddd; padding: 8px;">
+        @endif
     </div>
 
+    <h1 class="my-4">Detalhes do Livro</h1>
+
     <!-- Formulário para Empréstimos -->
-    <div class="card my-4">
+    <div class="card mb-4">
         <div class="card-header">Registrar Empréstimo</div>
         <div class="card-body">
             <form action="{{ route('books.borrow', $book) }}" method="POST">
@@ -48,7 +35,7 @@
     </div>
 
     <!-- Histórico de Empréstimos -->
-    <div class="card mb-4">
+    <div class="card">
         <div class="card-header">Histórico de Empréstimos</div>
         <div class="card-body">
             @if($book->users->isEmpty())
@@ -90,8 +77,5 @@
         </div>
     </div>
 
-    <a href="{{ route('books.index') }}" class="btn btn-secondary mt-3">
-        <i class="bi bi-arrow-left"></i> Voltar
-    </a>
 </div>
 @endsection
